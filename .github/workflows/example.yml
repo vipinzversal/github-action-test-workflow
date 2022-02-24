@@ -1,17 +1,23 @@
 
 name: github action example
 
-on: [push]
+on: 
+  pull_request:
+  push:
+    branches:
+      - master
+      - develop
 jobs:
-  build:
+  test:
     name: Compile Build & Deploy
     runs-on: ubuntu-latest
     steps:
-     - name: Checkout
-       uses: actions/checkout@v2
-     - name: Setup node 14
-       uses: actions/setup-node@v2
+     - uses: actions/checkout@v1
+     - name: Use Example.js ${{matrix.node-version}}
+       uses: actions/setup-node@v1
        with:
-          node-version: '14.x'
-     - run: npm install    
-     - run: npm run build
+          node-version: ${{matrix.node-version}}
+     - name: Install
+       run: npm install
+     - name: Test
+       run: npm test

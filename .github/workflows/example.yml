@@ -7,19 +7,16 @@ on:
   branches:
        - master
        - develop
-
 jobs:
-  test:
-    name: Running Tests
+  build:
+    name: Compile Build & Deploy
     runs-on: ubuntu-latest
-   
     steps:
-    - uses: action/checkout@v1
-    - name: Use Node.js ${{matrix.node-version}}
-      uses: action/setup-node@v1
+		- name: Checkout
+		  uses: actions/checkout@v2
+		- name: Setup node 14
+		  uses: actions/setup-node@v2
       with:
-       node-version: ${{matrix.node-version}}
-     - name: Install
-       run: npm install
-     - name: Test
-       run: npm test
+          node-version: '14.x'
+    - run: npm install    
+    - run: npm run build
